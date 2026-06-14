@@ -56,3 +56,37 @@ let ``Aligned-Specs werden nicht als Pending gemeldet`` () =
         """{"Id":"spec-ok","Payload":{"Case":"SpecNode","Fields":{"Item":{"Title":"T","Intent":"i","Criteria":[]}}},"Convergence":"Aligned"}""")
     try Assert.Empty(MapperCore.FindePendingSpecs root)
     finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Gate v2: findet Testprojekte unter tests`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-tp-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(Path.Combine(root, "tests", "Foo.Tests")) |> ignore
+    Directory.CreateDirectory(Path.Combine(root, "tests", "Bar.Tests")) |> ignore
+    File.WriteAllText(Path.Combine(root, "tests", "Foo.Tests", "Foo.Tests.fsproj"), "<Project/>")
+    File.WriteAllText(Path.Combine(root, "tests", "Bar.Tests", "Bar.Tests.csproj"), "<Project/>")
+    try
+        let projekte = MapperCore.FindeTestprojekte root
+        Assert.Equal(2, projekte.Count)
+    finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Gate v2: keine Testprojekte ohne tests-Verzeichnis`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-notp-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(root) |> ignore
+    try Assert.Empty(MapperCore.FindeTestprojekte root)
+    finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Gate v2: keine Testprojekte gilt NIE als konvergiert (Loch geschlossen)`` () =
+    Assert.False(MapperCore.GateBestanden(true, 0, true))   // Marker ok, aber 0 Projekte → nicht grün
+    Assert.True(MapperCore.GateBestanden(true, 1, true))     // alles erfüllt
+    Assert.False(MapperCore.GateBestanden(false, 1, true))   // Marker fehlt
+    Assert.False(MapperCore.GateBestanden(true, 1, false))   // Tests rot
+
+[<Fact>]
+let ``Gate v2: 'keine Tests gelaufen' (Exit 0) zaehlt NICHT als gruen`` () =
+    Assert.False(MapperCore.TestlaufGruen(0, "No test is available in the project."))
+    Assert.False(MapperCore.TestlaufGruen(0, "Es sind keine Tests verfügbar."))
+    Assert.False(MapperCore.TestlaufGruen(1, "Failed!  - Fehler: 2"))
+    Assert.True(MapperCore.TestlaufGruen(0, "Bestanden!  : Fehler: 0, erfolgreich: 5"))
+    Assert.True(MapperCore.TestlaufGruen(0, "Passed!  - Failed: 0, Passed: 5"))

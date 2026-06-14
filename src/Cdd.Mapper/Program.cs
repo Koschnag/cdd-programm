@@ -12,6 +12,11 @@ string Arg(string name, string fallback)
 }
 
 var root = Path.GetFullPath(Arg("--root", "."));
+if (!Directory.Exists(root))
+{
+    Console.Error.WriteLine($"Fehler: --root '{root}' existiert nicht.");
+    return 2;
+}
 var maxAttempts = int.TryParse(Arg("--max-attempts", "3"), out var ma) ? ma : 3;
 var maxSpecs = int.TryParse(Arg("--max-specs", "1"), out var ms) ? ms : 1;
 var go = args.Contains("--go");
@@ -55,8 +60,23 @@ foreach (var spec in ziele)
             Console.WriteLine("  (claude-Aufruf meldete Fehler — messe trotzdem das Gate)");
         Lauf("cdd", new[] { "validate" }, root);
         Lauf("cdd", new[] { "sync-tests", "--write" }, root);
-        var ok = MapperCore.SpecKonvergiert(root, spec.Id);
-        Console.WriteLine(ok ? "  ✓ Spec konvergiert (Tests Aligned)" : "  … noch nicht konvergiert");
+        var marker = MapperCore.SpecKonvergiert(root, spec.Id);
+        // Gate v2: echtes dotnet test je Testprojekt. Exit 0 reicht nicht — die Ausgabe muss
+        // bestandene Tests ausweisen (sonst gilt "keine Tests gelaufen" fälschlich als grün).
+        var projekte = MapperCore.FindeTestprojekte(root);
+        var alleGruen = projekte.Count > 0;
+        foreach (var proj in projekte)
+        {
+            var (exit, ausgabe) = LaufMitAusgabe("dotnet", new[] { "test", proj, "--nologo" }, root);
+            if (!MapperCore.TestlaufGruen(exit, ausgabe))
+            {
+                alleGruen = false;
+                Console.WriteLine($"  ✗ Tests nicht grün in {Path.GetFileName(proj)}");
+            }
+        }
+        var ok = MapperCore.GateBestanden(marker, projekte.Count, alleGruen);
+        Console.WriteLine(ok ? "  ✓ Spec konvergiert (Marker Aligned UND dotnet test wirklich grün)"
+                             : $"  … noch nicht konvergiert (Marker={marker}, Testprojekte={projekte.Count}, alle grün={alleGruen})");
         return ok;
     });
     ergebnisse.Add(ergebnis);
@@ -89,5 +109,29 @@ static bool Lauf(string datei, string[] argumente, string cwd)
     {
         Console.WriteLine($"  Fehler beim Start von {datei}: {ex.Message}");
         return false;
+    }
+}
+
+// Startet einen Prozess und fängt die Ausgabe ein (für die Test-Ergebnis-Auswertung).
+static (int exit, string ausgabe) LaufMitAusgabe(string datei, string[] argumente, string cwd)
+{
+    try
+    {
+        var psi = new ProcessStartInfo(datei)
+        {
+            WorkingDirectory = cwd, UseShellExecute = false,
+            RedirectStandardOutput = true, RedirectStandardError = true,
+        };
+        foreach (var a in argumente) psi.ArgumentList.Add(a);
+        using var p = Process.Start(psi);
+        if (p is null) return (-1, "");
+        var o = p.StandardOutput.ReadToEnd();
+        var e = p.StandardError.ReadToEnd();
+        p.WaitForExit();
+        return (p.ExitCode, o + e);
+    }
+    catch (Exception ex)
+    {
+        return (-1, ex.Message);
     }
 }

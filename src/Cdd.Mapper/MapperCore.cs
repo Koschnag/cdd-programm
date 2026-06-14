@@ -24,7 +24,11 @@ public static class MapperCore
         if (!Directory.Exists(dir)) return result;
         foreach (var f in Directory.GetFiles(dir, "*.json").OrderBy(x => x))
         {
-            using var doc = JsonDocument.Parse(File.ReadAllText(f));
+            JsonDocument doc;
+            try { doc = JsonDocument.Parse(File.ReadAllText(f)); }
+            catch { Console.Error.WriteLine($"  (überspringe defekte Datei: {Path.GetFileName(f)})"); continue; }
+            using (doc)
+            {
             var r = doc.RootElement;
             if (Conv(r) != "Pending") continue;
             var payload = r.GetProperty("Payload");
@@ -37,6 +41,7 @@ public static class MapperCore
                 foreach (var c in cs.EnumerateArray())
                     krit.Add($"GEGEBEN {Str(c, "Given")} WENN {Str(c, "When")} DANN {Str(c, "Then")}");
             result.Add(new PendingSpec(id, Str(item, "Title"), Str(item, "Intent"), krit.ToArray()));
+            }
         }
         return result;
     }
@@ -72,16 +77,52 @@ public static class MapperCore
         return new RunResult(spec.Id, false, maxVersuche);
     }
 
+    /// <summary>
+    /// Gate-v2-Urteil (rein, testbar): konvergiert NUR, wenn die Test-Knoten Aligned sind,
+    /// mindestens ein Testprojekt existiert UND alle Testläufe grün waren.
+    /// Schließt das Loch "keine Testprojekte ⇒ stilles Marker-Gate".
+    /// </summary>
+    public static bool GateBestanden(bool markerAligned, int testprojekte, bool alleTestsGruen) =>
+        markerAligned && testprojekte > 0 && alleTestsGruen;
+
+    /// <summary>
+    /// Bewertet einen einzelnen `dotnet test`-Lauf (rein, testbar): Exit 0 reicht NICHT —
+    /// es muss bestandene Tests ausweisen und darf weder Fehlschläge noch "keine Tests" melden.
+    /// </summary>
+    public static bool TestlaufGruen(int exitCode, string ausgabe)
+    {
+        if (exitCode != 0) return false;
+        var bestanden = ausgabe.Contains("Passed!") || ausgabe.Contains("Bestanden!");
+        var schlecht = ausgabe.Contains("Failed!") || ausgabe.Contains("Fehler!")
+                       || ausgabe.Contains("No test") || ausgabe.Contains("keine Tests");
+        return bestanden && !schlecht;
+    }
+
+    /// <summary>Findet alle Testprojekte unter tests/ (für das echte dotnet-test-Gate, v2).</summary>
+    public static List<string> FindeTestprojekte(string root)
+    {
+        var dir = Path.Combine(root, "tests");
+        if (!Directory.Exists(dir)) return new List<string>();
+        return Directory.GetFiles(dir, "*.fsproj", SearchOption.AllDirectories)
+            .Concat(Directory.GetFiles(dir, "*.csproj", SearchOption.AllDirectories))
+            .OrderBy(x => x).ToList();
+    }
+
     /// <summary>Misst, ob alle Test-Knoten einer Spec im .spot Aligned sind.</summary>
     public static bool SpecKonvergiert(string root, string specId)
     {
         var dir = Path.Combine(root, ".spot");
+        if (!Directory.Exists(dir)) return false;
         var tests = Directory.GetFiles(dir, $"{specId}-test-*.json");
         if (tests.Length == 0) return false;
         foreach (var f in tests)
         {
-            using var doc = JsonDocument.Parse(File.ReadAllText(f));
-            if (Conv(doc.RootElement) != "Aligned") return false;
+            try
+            {
+                using var doc = JsonDocument.Parse(File.ReadAllText(f));
+                if (Conv(doc.RootElement) != "Aligned") return false;
+            }
+            catch { return false; } // defekte Knoten-Datei ⇒ nicht konvergiert
         }
         return true;
     }
