@@ -15,9 +15,9 @@ jobs:
       - name: Säulen auschecken (für Aggregation)
         run: |
           for r in runenruf cdd-fallstudie; do
-            git clone --depth 1 https://github.com/Koschnag/$r.git ../$r || true
+            git clone --depth 1 https://github.com/Koschnag/$r.git ../$r
           done
-          ln -sfn "$GITHUB_WORKSPACE/.cdd" ../cong-driven-development || true
+          ln -sfn "$GITHUB_WORKSPACE/.cdd" ../cong-driven-development
       - name: SPOT validieren
         run: dotnet run --project .cdd/src/Cdd.Cli -- validate
       - name: Programm-Dashboard generieren

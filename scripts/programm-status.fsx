@@ -17,7 +17,9 @@ let saeulen =
 
 let private convOf (f: string) =
     use doc = JsonDocument.Parse(File.ReadAllText f)
-    doc.RootElement.GetProperty("Convergence").GetString()
+    match doc.RootElement.TryGetProperty "Convergence" with
+    | true, v -> v.GetString()
+    | _ -> "Pending"  // fehlendes Feld zählt nicht als Aligned, statt das ganze Dashboard zu sprengen
 
 let messung repo =
     let d = Path.Combine(basis, repo, ".spot")
