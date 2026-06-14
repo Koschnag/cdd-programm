@@ -56,3 +56,22 @@ let ``Aligned-Specs werden nicht als Pending gemeldet`` () =
         """{"Id":"spec-ok","Payload":{"Case":"SpecNode","Fields":{"Item":{"Title":"T","Intent":"i","Criteria":[]}}},"Convergence":"Aligned"}""")
     try Assert.Empty(MapperCore.FindePendingSpecs root)
     finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Gate v2: findet Testprojekte unter tests`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-tp-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(Path.Combine(root, "tests", "Foo.Tests")) |> ignore
+    Directory.CreateDirectory(Path.Combine(root, "tests", "Bar.Tests")) |> ignore
+    File.WriteAllText(Path.Combine(root, "tests", "Foo.Tests", "Foo.Tests.fsproj"), "<Project/>")
+    File.WriteAllText(Path.Combine(root, "tests", "Bar.Tests", "Bar.Tests.csproj"), "<Project/>")
+    try
+        let projekte = MapperCore.FindeTestprojekte root
+        Assert.Equal(2, projekte.Count)
+    finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Gate v2: keine Testprojekte ohne tests-Verzeichnis`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-notp-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(root) |> ignore
+    try Assert.Empty(MapperCore.FindeTestprojekte root)
+    finally Directory.Delete(root, true)

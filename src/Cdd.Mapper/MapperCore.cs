@@ -72,6 +72,16 @@ public static class MapperCore
         return new RunResult(spec.Id, false, maxVersuche);
     }
 
+    /// <summary>Findet alle Testprojekte unter tests/ (für das echte dotnet-test-Gate, v2).</summary>
+    public static List<string> FindeTestprojekte(string root)
+    {
+        var dir = Path.Combine(root, "tests");
+        if (!Directory.Exists(dir)) return new List<string>();
+        return Directory.GetFiles(dir, "*.fsproj", SearchOption.AllDirectories)
+            .Concat(Directory.GetFiles(dir, "*.csproj", SearchOption.AllDirectories))
+            .OrderBy(x => x).ToList();
+    }
+
     /// <summary>Misst, ob alle Test-Knoten einer Spec im .spot Aligned sind.</summary>
     public static bool SpecKonvergiert(string root, string specId)
     {

@@ -12,4 +12,4 @@
 - **Erkenntnis (für Mapper-Gate v2):** Die KI konnte im nested-Lauf `dotnet test`/`cdd` nicht selbst
   ausführen (Permission-Mode) — sie schrieb nur Code; der **Mapper** maß danach das Gate. Das v1-Gate
   prüft Marker-Existenz + `validate`, nicht das tatsächliche Test-Bestehen. Hier war es grün, aber:
-  **Gate v2 muss `dotnet test` einschließen**, sonst könnte ein markierter-aber-roter Test falsch konvergieren.
+  **Gate v2 muss `dotnet test` einschließen** → ERLEDIGT: der Mapper führt jetzt `dotnet test` je Testprojekt aus; Konvergenz erst bei Marker Aligned UND Tests grün.

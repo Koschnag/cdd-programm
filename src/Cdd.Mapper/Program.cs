@@ -55,8 +55,18 @@ foreach (var spec in ziele)
             Console.WriteLine("  (claude-Aufruf meldete Fehler — messe trotzdem das Gate)");
         Lauf("cdd", new[] { "validate" }, root);
         Lauf("cdd", new[] { "sync-tests", "--write" }, root);
-        var ok = MapperCore.SpecKonvergiert(root, spec.Id);
-        Console.WriteLine(ok ? "  ✓ Spec konvergiert (Tests Aligned)" : "  … noch nicht konvergiert");
+        var marker = MapperCore.SpecKonvergiert(root, spec.Id);
+        // Gate v2: echtes dotnet test — ein markierter-aber-roter Test darf NICHT konvergieren.
+        var testsGruen = true;
+        foreach (var proj in MapperCore.FindeTestprojekte(root))
+            if (!Lauf("dotnet", new[] { "test", proj, "--nologo" }, root))
+            {
+                testsGruen = false;
+                Console.WriteLine($"  ✗ Tests rot in {Path.GetFileName(proj)}");
+            }
+        var ok = marker && testsGruen;
+        Console.WriteLine(ok ? "  ✓ Spec konvergiert (Marker Aligned UND dotnet test grün)"
+                             : $"  … noch nicht konvergiert (Marker={marker}, Tests grün={testsGruen})");
         return ok;
     });
     ergebnisse.Add(ergebnis);
