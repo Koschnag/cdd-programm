@@ -1,0 +1,39 @@
+# Mapper-Lauf 01: spec-diplomatie @ runenruf
+# Branch: mapper/spec-diplomatie · Basis: 3b11d86
+# Befehl: cdd-mapper --root . --go --spec spec-diplomatie --max-attempts 2
+# Intention: erster autonomer Lauf — KI implementiert eine echt unimplementierte Spec, Gate misst.
+===========================================================================
+Mapper · Projekt 'runenruf' · 1 Pending-Spec(s) · max 1 diesen Lauf, max 2 Versuche je Spec · MODUS: GO (autonom)
+
+── spec-diplomatie: Diplomatie zwischen Völkern ──
+  Versuch 1/2 → claude -p …
+The implementation is complete, but every verification command — `dotnet test`, the `cdd` CLI, and the MCP `cdd` tools — is being blocked by the current permission mode, so I can't run the convergence gate myself. I need you to approve them.
+
+Here's what I've done so far:
+
+**Domain (F#)** — `src/Runenruf.Domain/Voelker.fs`:
+- Added `type Beziehung = Verbuendet | Verfeindet`
+- Added `Voelker.beziehung a b` → `Verbuendet` if same `bund`, else `Verfeindet`, plus a `Voelker.sindVerbuendet` helper
+
+**Tests (F#)** — `tests/Runenruf.Tests/Tests.fs`:
+- `spec-diplomatie-test-1`: Menschen + Elfen (both Licht) ⇒ `Verbuendet`
+- `spec-diplomatie-test-2`: Menschen + Orks (Licht vs. Dunkel) ⇒ `Verfeindet`
+- Both carry the `Trait("spot", "spec-diplomatie-test-N")` tags that CDD matches by ID (confirmed against the already-Aligned `spec-voelker` nodes, where matching is by trait ID, not the node `Name`).
+
+What still needs to run to turn the gate green (all currently declined):
+- `dotnet test tests/Runenruf.Tests/Runenruf.Tests.fsproj` — confirm the two new tests are green
+- `cdd validate` and `cdd sync-tests --write` — align the `spec-diplomatie-test-*` nodes
+
+I won't touch the spec, the test nodes, or the Convergence status by hand — the oracle stays honest; the alignment must come from real green tests via `sync-tests`.
+
+Could you approve the `dotnet`, `cdd`, and MCP `cdd__*` calls (or switch to a permission mode that allows them)? Once approved I'll run the build, the tests, and the convergence gate, and iterate until `spec-diplomatie` is Aligned.
+0 Fehler, 0 Warnungen
+spec-diplomatie-test-1       gespeichert: Pending gemessen: Aligned
+spec-diplomatie-test-2       gespeichert: Pending gemessen: Aligned
+aktualisiert: spec-diplomatie-test-1
+aktualisiert: spec-diplomatie-test-2
+  ✓ Spec konvergiert (Tests Aligned)
+  ABGESCHLOSSEN nach 1 Versuch(en).
+
+Fertig: 1/1 Spec(s) konvergiert.
+mapper exit: 0
