@@ -4,12 +4,10 @@
     "Case": "ComponentNode",
     "Fields": {
       "Item": {
-        "Name": "cdd-mapper (zu bauen)",
-        "DependsOn": [
-          "comp-cdd"
-        ]
+        "Name": "Cdd.Mapper",
+        "DependsOn": []
       }
     }
   },
-  "Convergence": "Pending"
+  "Convergence": "Aligned"
 }
