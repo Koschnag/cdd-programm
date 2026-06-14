@@ -17,10 +17,14 @@ var maxSpecs = int.TryParse(Arg("--max-specs", "1"), out var ms) ? ms : 1;
 var go = args.Contains("--go");
 var projektName = new DirectoryInfo(root).Name;
 
+var nurSpec = Arg("--spec", "");
 var specs = MapperCore.FindePendingSpecs(root);
+if (nurSpec != "") specs = specs.Where(s => s.Id == nurSpec).ToList();
 if (specs.Count == 0)
 {
-    Console.WriteLine($"Keine Pending-Specs in {projektName} — nichts zu tun (Modell konvergiert).");
+    Console.WriteLine(nurSpec != ""
+        ? $"Spec '{nurSpec}' ist in {projektName} nicht Pending (oder existiert nicht)."
+        : $"Keine Pending-Specs in {projektName} — nichts zu tun (Modell konvergiert).");
     return 0;
 }
 
