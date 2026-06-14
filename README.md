@@ -24,6 +24,20 @@ generiert aus den echten `.spot/`-Ständen (`dotnet fsi scripts/programm-status.
 - **Anbieter-Naht:** Genau am Mapper wird später Opus durch **Mistral** ersetzt — Kostenbeleg
   und europäische Souveränität in einer Konfiguration (`spec-anbieter-naht`).
 
+## Der Mapper (gebaut, v1)
+
+`Cdd.Mapper` ist der Runner, der CDD zur Steuerzentrale macht: er findet Pending-Specs,
+baut daraus Prompts, übergibt sie an Claude Code (`claude -p`, headless), lässt das
+Konvergenz-Gate messen und loopt bis grün — **Loop bis Konvergenz** (adr-004), mit
+Versuchs-/Spec-Limit gegen Amoklauf.
+
+```bash
+cdd-mapper --root ../runenruf                 # Dry-Run: zeigt Plan + Prompts (kostenlos)
+cdd-mapper --root ../runenruf --go --max-specs 1 --max-attempts 3   # autonom (Tokens!)
+```
+Standard ist Dry-Run; echter Lauf nur mit `--go`. Hier wird später Claude durch Mistral
+ersetzt (Anbieter-Naht, spec-anbieter-naht).
+
 ## Stand
 Programm-SPOT (Vision, Säulen, Roadmap, Risiken) ist modelliert; das Dashboard misst live.
 Mapper/Runner, Chat-Steuerung und Anbieter-Naht sind als **Pending**-Specs spezifiziert —
