@@ -1,0 +1,15 @@
+{
+  "Id": "comp-mapper",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "cdd-mapper (zu bauen)",
+        "DependsOn": [
+          "comp-cdd"
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

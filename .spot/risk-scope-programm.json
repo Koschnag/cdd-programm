@@ -1,0 +1,15 @@
+{
+  "Id": "risk-scope-programm",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Großer Scope über drei (bald vier) Repos wird unüberschaubar",
+        "Likelihood": "High",
+        "Impact": "High",
+        "Mitigation": "Programm-SPOT als Überblick + aggregiertes Dashboard (programm-status); Arbeit in Phasen, nicht alles gleichzeitig"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

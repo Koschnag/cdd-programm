@@ -1,0 +1,14 @@
+{
+  "Id": "spec-anbieter-naht-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-anbieter-naht",
+        "Name": "Anbieter am Mapper austauschbar \u2014 when mit beiden Anbietern ausgef\u00FChrt wird then ist das Konvergenzkriterium identisch",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

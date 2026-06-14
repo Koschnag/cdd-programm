@@ -1,0 +1,14 @@
+{
+  "Id": "spec-programm-dashboard-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-programm-dashboard",
+        "Name": "Live-Programm-Dashboard \u2014 when neu generiert wird then \u00E4ndert sich die Kennzahl entsprechend, nicht von Hand",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

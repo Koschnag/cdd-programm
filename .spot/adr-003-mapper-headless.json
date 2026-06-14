@@ -1,0 +1,16 @@
+{
+  "Id": "adr-003-mapper-headless",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Mapper nutzt claude -p headless als Ausführer",
+        "Context": "Die Rückrichtung CDD→Claude Code fehlt; claude -p und der MCP-Server sind vorhanden",
+        "Choice": "Mapper baut aus einer Spec einen Prosa-Prompt, ruft claude -p, lässt das Konvergenz-Gate laufen, aktualisiert den Knoten, committet per PR",
+        "Consequences": "Voller Werkzeugzugriff der Ausführung; die Browser-Agent-Tab bleibt für reine Modell-Mutationen",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

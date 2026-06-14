@@ -1,0 +1,24 @@
+{
+  "Id": "term-saeule",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Säule",
+        "Definition": "Eines der drei Teilprojekte des Programms",
+        "Synonyms": [
+          "Teilprojekt"
+        ],
+        "Relations": [
+          {
+            "Case": "PartOf",
+            "Fields": {
+              "Item": "term-programm"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

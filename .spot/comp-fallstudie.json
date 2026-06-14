@@ -1,0 +1,16 @@
+{
+  "Id": "comp-fallstudie",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "cdd-fallstudie",
+        "DependsOn": [
+          "comp-cdd",
+          "comp-runenruf"
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

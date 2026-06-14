@@ -1,0 +1,13 @@
+{
+  "Id": "premise-prosa-zuerst",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Arbeitsmodus: viel Prosa zuerst, dann KI laufen lassen, dann Konvergenz prüfen — nicht iteratives Tippen im Terminal",
+        "Rationale": "Intention gehört ins Modell; Ausführung und Wiederholung gehören an die Maschine"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

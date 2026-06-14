@@ -1,0 +1,25 @@
+{
+  "Id": "spec-drei-saeulen",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Drei Säulen existieren und konvergieren",
+        "Intent": "Werkzeug, Anwendung und Beleg sind real und messbar grün",
+        "Criteria": [
+          {
+            "Given": "die drei Projekt-Repos",
+            "When": "der Programm-Status erhoben wird",
+            "Then": "weisen alle drei eine messbare Konvergenz aus (kein Projekt fehlt)"
+          },
+          {
+            "Given": "ein Projekt ist inkonsistent",
+            "When": "der Status erhoben wird",
+            "Then": "sinkt die ausgewiesene Programm-Konvergenz entsprechend"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

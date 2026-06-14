@@ -1,0 +1,14 @@
+{
+  "Id": "spec-mapper-runner-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-mapper-runner",
+        "Name": "Mapper: CDD treibt Claude Code, Loop bis Konvergenz \u2014 when der Mapper l\u00E4uft then bricht er f\u00FCr diese Spec ab und meldet es, statt unbegrenzt zu loopen",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

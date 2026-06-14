@@ -1,0 +1,16 @@
+{
+  "Id": "adr-001-eigenes-repo",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Programm als eigenes Repo über den drei Projekten",
+        "Context": "Das Vorhaben war bisher nur verstreut dokumentiert",
+        "Choice": "cdd-programm hält die Programm-SPOT und das aggregierte Dashboard; die drei Projekt-Repos bleiben eigenständig",
+        "Consequences": "Klare Trennung Programm-/Projektebene; ein Ort für den Gesamtüberblick",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

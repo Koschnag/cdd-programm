@@ -1,0 +1,15 @@
+{
+  "Id": "risk-orakel",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Garbage-Spec → grüner Müll: niemand prüft automatisch, ob die Spec richtig ist",
+        "Likelihood": "High",
+        "Impact": "Critical",
+        "Mitigation": "Spec-Autorenschaft bleibt Mensch-/Frontier-Arbeit; der Runner führt nur aus, was gegen ein abgeleitetes Gate prüfbar ist"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

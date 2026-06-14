@@ -1,0 +1,25 @@
+{
+  "Id": "term-steuerzentrale",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Steuerzentrale",
+        "Definition": "CDD als Control Plane: der einzige Ort, an dem der Mensch Prosa/Specs schreibt, Diagramme überwacht und anpasst",
+        "Synonyms": [
+          "Control Plane",
+          "Cockpit"
+        ],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-programm"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,15 @@
+{
+  "Id": "risk-runner-amok",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Autonomer Runner produziert viele PRs und verbraucht unkontrolliert Tokens",
+        "Likelihood": "Medium",
+        "Impact": "Critical",
+        "Mitigation": "Hartes Konvergenz-Gate vor jedem Merge; PR-Pflicht mit Review; Versuchs-/Token-Limit je Spec; Abbruch bei Nicht-Konvergenz"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

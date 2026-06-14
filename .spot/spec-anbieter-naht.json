@@ -1,0 +1,25 @@
+{
+  "Id": "spec-anbieter-naht",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Anbieter am Mapper austauschbar",
+        "Intent": "Der KI-Anbieter ist eine Konfiguration, kein Umbau (Opus→Mistral)",
+        "Criteria": [
+          {
+            "Given": "der Mapper mit Anbieter Claude",
+            "When": "auf Mistral umgestellt wird",
+            "Then": "ändert sich nur die Konfiguration, nicht die Spec- oder Gate-Logik"
+          },
+          {
+            "Given": "derselbe Spec-Satz",
+            "When": "mit beiden Anbietern ausgeführt wird",
+            "Then": "ist das Konvergenzkriterium identisch"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

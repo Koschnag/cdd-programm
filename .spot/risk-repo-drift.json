@@ -1,0 +1,15 @@
+{
+  "Id": "risk-repo-drift",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Die drei Repos driften auseinander (Versionen, Annahmen)",
+        "Likelihood": "Medium",
+        "Impact": "High",
+        "Mitigation": "programm-status misst Programm-Konvergenz live; Fallstudie+Runenruf pinnen CDD-Version explizit"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

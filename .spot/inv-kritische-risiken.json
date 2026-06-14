@@ -1,0 +1,13 @@
+{
+  "Id": "inv-kritische-risiken",
+  "Payload": {
+    "Case": "InvariantNode",
+    "Fields": {
+      "Item": {
+        "Description": "Kritische Risiken brauchen eine Mitigation",
+        "Rule": "CriticalRisksNeedMitigation"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

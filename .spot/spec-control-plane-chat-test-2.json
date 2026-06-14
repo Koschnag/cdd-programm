@@ -1,0 +1,14 @@
+{
+  "Id": "spec-control-plane-chat-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-control-plane-chat",
+        "Name": "Chatten nur in CDD \u2014 when sie l\u00E4uft then erscheint ihr Fortschritt und Ergebnis in der Steuerzentrale, ohne Terminal-Tippen",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

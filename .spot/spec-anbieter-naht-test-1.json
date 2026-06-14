@@ -1,0 +1,14 @@
+{
+  "Id": "spec-anbieter-naht-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-anbieter-naht",
+        "Name": "Anbieter am Mapper austauschbar \u2014 when auf Mistral umgestellt wird then \u00E4ndert sich nur die Konfiguration, nicht die Spec- oder Gate-Logik",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,15 @@
+{
+  "Id": "comp-runenruf",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "runenruf",
+        "DependsOn": [
+          "comp-cdd"
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

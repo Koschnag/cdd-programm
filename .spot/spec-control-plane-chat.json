@@ -1,0 +1,25 @@
+{
+  "Id": "spec-control-plane-chat",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Chatten nur in CDD",
+        "Intent": "Eine Eingabe in CDD mutiert das Modell und kann den Runner anstoßen",
+        "Criteria": [
+          {
+            "Given": "eine Prosa-Eingabe in der Steuerzentrale",
+            "When": "sie abgeschickt wird",
+            "Then": "entstehen oder ändern sich SPOT-Knoten daraus"
+          },
+          {
+            "Given": "eine angestoßene Ausführung",
+            "When": "sie läuft",
+            "Then": "erscheint ihr Fortschritt und Ergebnis in der Steuerzentrale, ohne Terminal-Tippen"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

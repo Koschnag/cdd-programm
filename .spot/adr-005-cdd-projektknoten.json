@@ -1,0 +1,16 @@
+{
+  "Id": "adr-005-cdd-projektknoten",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Geplante CDD-Erweiterung: Projekt-Knotenart + projektübergreifende Konvergenz-Aggregation",
+        "Context": "Programm ist eine neue Dimension; CDD modelliert heute ein Projekt",
+        "Choice": "CDD bekommt eine Knotenart 'Projekt' und ein Aggregat, das je Repo das Aligned-% hochrollt; bis dahin via Script (programm-status)",
+        "Consequences": "Echte, dogfooding-getriebene CDD-Erweiterung — wie schon der tools/-Scan",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

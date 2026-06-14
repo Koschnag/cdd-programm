@@ -1,0 +1,22 @@
+{
+  "Id": "term-programm-konvergenz",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Programm-Konvergenz",
+        "Definition": "Über alle Säulen aggregierter Anteil Aligned-Knoten — die eine Kennzahl der Steuerzentrale",
+        "Synonyms": [],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-programm"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

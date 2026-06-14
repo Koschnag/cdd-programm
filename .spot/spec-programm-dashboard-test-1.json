@@ -1,0 +1,14 @@
+{
+  "Id": "spec-programm-dashboard-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-programm-dashboard",
+        "Name": "Live-Programm-Dashboard \u2014 when der Status generiert wird then entsteht ein Dashboard mit Knoten- und Aligned-Zahlen je Projekt und einer Programm-Gesamtquote",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

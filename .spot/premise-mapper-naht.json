@@ -1,0 +1,13 @@
+{
+  "Id": "premise-mapper-naht",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Der Mapper ist die eine Naht, an der der KI-Anbieter gewechselt wird: heute Claude (Opus), später Mistral — ohne den Rest des Systems zu ändern",
+        "Rationale": "Anbieter-Unabhängigkeit und der Kostenbeleg hängen an genau dieser Entkopplung"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

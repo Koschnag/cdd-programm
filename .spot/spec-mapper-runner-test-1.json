@@ -1,0 +1,14 @@
+{
+  "Id": "spec-mapper-runner-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-mapper-runner",
+        "Name": "Mapper: CDD treibt Claude Code, Loop bis Konvergenz \u2014 when der Mapper l\u00E4uft then baut er einen Prompt, ruft claude -p, l\u00E4sst das Gate laufen und aktualisiert den Knoten",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

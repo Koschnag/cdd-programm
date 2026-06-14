@@ -1,0 +1,16 @@
+{
+  "Id": "adr-004-loop-bis-konvergenz",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Runner arbeitet autonom bis Konvergenz",
+        "Context": "Der Mensch soll nur überwachen, nicht takten (Maintainer-Entscheidung)",
+        "Choice": "Der Runner arbeitet Pending-Specs selbstständig ab, bis grün oder ein Limit greift; der Mensch schaut ins Dashboard und greift bei Bedarf ein",
+        "Consequences": "Maximale Hands-off-Automatik; Limits und das Gate sind die Leitplanken (risk-runner-amok)",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

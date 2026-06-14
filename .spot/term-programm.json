@@ -1,0 +1,18 @@
+{
+  "Id": "term-programm",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Programm",
+        "Definition": "Das Gesamtvorhaben über drei Säulen: Werkzeug (CDD), Anwendung (Runenruf), Beleg (Fallstudie) — als ein gesteuertes Ganzes",
+        "Synonyms": [
+          "Portfolio",
+          "Vorhaben"
+        ],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,13 @@
+{
+  "Id": "inv-begriffe-definiert",
+  "Payload": {
+    "Case": "InvariantNode",
+    "Fields": {
+      "Item": {
+        "Description": "Jeder Begriff der ubiquitären Sprache ist definiert",
+        "Rule": "TermsNeedDefinition"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

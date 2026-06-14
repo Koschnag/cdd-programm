@@ -1,0 +1,25 @@
+{
+  "Id": "term-mapper",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Mapper",
+        "Definition": "Der Runner, der Pending-Specs aus dem SPOT an Claude Code (claude -p, headless) übergibt, ausführen lässt und den gemessenen Konvergenz-Status zurückspielt",
+        "Synonyms": [
+          "Runner",
+          "Orchestrator"
+        ],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-steuerzentrale"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

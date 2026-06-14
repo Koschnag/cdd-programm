@@ -1,0 +1,16 @@
+{
+  "Id": "adr-002-projekte-als-komponenten",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Projekte vorerst als Komponenten-Knoten mit DependsOn",
+        "Context": "CDD hat noch keine Knotenart 'Projekt/Repo'",
+        "Choice": "Jede Säule ist ein Component-Knoten; Abhängigkeiten via DependsOn (Runenruf→CDD, Fallstudie→CDD+Runenruf)",
+        "Consequences": "Funktioniert mit heutigem CDD; sauberer wird es mit der geplanten Projekt-Knotenart (adr-005)",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

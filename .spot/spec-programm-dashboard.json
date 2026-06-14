@@ -1,0 +1,25 @@
+{
+  "Id": "spec-programm-dashboard",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Live-Programm-Dashboard",
+        "Intent": "Ein generiertes Dashboard zeigt aggregierte Konvergenz über alle Säulen",
+        "Criteria": [
+          {
+            "Given": "die .spot-Stände aller Säulen",
+            "When": "der Status generiert wird",
+            "Then": "entsteht ein Dashboard mit Knoten- und Aligned-Zahlen je Projekt und einer Programm-Gesamtquote"
+          },
+          {
+            "Given": "ein Stand ändert sich",
+            "When": "neu generiert wird",
+            "Then": "ändert sich die Kennzahl entsprechend, nicht von Hand"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,13 @@
+{
+  "Id": "comp-cdd",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "cong-driven-development",
+        "DependsOn": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

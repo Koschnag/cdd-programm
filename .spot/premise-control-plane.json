@@ -1,0 +1,13 @@
+{
+  "Id": "premise-control-plane",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "CDD ist die einzige Steuerzentrale: der Mensch schreibt viel Prosa und Specs, überwacht Diagramme und passt an; die KI führt aus. Das Terminal (Claude Code) wird zum Ausführer, nicht zum Eingabeort",
+        "Rationale": "Ein Ort für Intention und Überblick; Ausführung ist austauschbar und automatisierbar"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

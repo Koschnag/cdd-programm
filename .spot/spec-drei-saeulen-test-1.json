@@ -1,0 +1,14 @@
+{
+  "Id": "spec-drei-saeulen-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-drei-saeulen",
+        "Name": "Drei S\u00E4ulen existieren und konvergieren \u2014 when der Programm-Status erhoben wird then weisen alle drei eine messbare Konvergenz aus (kein Projekt fehlt)",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

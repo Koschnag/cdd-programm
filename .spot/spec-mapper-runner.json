@@ -1,0 +1,25 @@
+{
+  "Id": "spec-mapper-runner",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Mapper: CDD treibt Claude Code, Loop bis Konvergenz",
+        "Intent": "Die fehlende Hälfte der Steuerzentrale — CDD führt aus statt nur zu modellieren",
+        "Criteria": [
+          {
+            "Given": "eine Pending-Spec im SPOT",
+            "When": "der Mapper läuft",
+            "Then": "baut er einen Prompt, ruft claude -p, lässt das Gate laufen und aktualisiert den Knoten"
+          },
+          {
+            "Given": "eine Spec konvergiert nicht im Versuchslimit",
+            "When": "der Mapper läuft",
+            "Then": "bricht er für diese Spec ab und meldet es, statt unbegrenzt zu loopen"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

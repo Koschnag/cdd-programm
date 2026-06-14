@@ -1,0 +1,13 @@
+{
+  "Id": "premise-drei-saeulen",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Das Programm steht auf drei Säulen: Werkzeug (CDD), Anwendung (Runenruf), wissenschaftlicher Beleg (Fallstudie) — sie bedingen einander",
+        "Rationale": "Werkzeug ohne Anwendung ist unbelegt; Anwendung ohne Beleg ist Anekdote; Beleg ohne beides ist Behauptung"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,13 @@
+{
+  "Id": "inv-specs-getestet",
+  "Payload": {
+    "Case": "InvariantNode",
+    "Fields": {
+      "Item": {
+        "Description": "Jede Spec hat mindestens einen prüfbaren Beleg",
+        "Rule": "SpecsNeedTests"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-control-plane-chat-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-control-plane-chat",
+        "Name": "Chatten nur in CDD \u2014 when sie abgeschickt wird then entstehen oder \u00E4ndern sich SPOT-Knoten daraus",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}
