@@ -40,5 +40,14 @@ ersetzt (Anbieter-Naht, spec-anbieter-naht).
 
 ## Stand
 Programm-SPOT (Vision, Säulen, Roadmap, Risiken) ist modelliert; das Dashboard misst live.
-Mapper/Runner, Chat-Steuerung und Anbieter-Naht sind als **Pending**-Specs spezifiziert —
-ehrlich der nächste Bau. Lizenz: MPL-2.0.
+
+**Gebaut & belegt:** `Cdd.Mapper` (der Loop-bis-Konvergenz-Runner, `spec-mapper-runner` Aligned,
+10/10 Tests, als `dotnet tool` installierbar, idempotent, Orakel verbürgt Spec→Aligned nur bei
+echtem grünem Gate) — **end-to-end an Runenruf bewiesen** (`spec-fenster` durch `cdd-mapper --go`,
+27/27 Tests grün). Das Cockpit (`cong-driven-development`) treibt den Mapper via `/api/loop/run`.
+
+**Noch Pending (ehrlich der nächste Bau):** Chat-Steuerung im Cockpit, die Anbieter-Naht
+Opus→Mistral (`spec-anbieter-naht`), sowie — Manifest-only, nicht im Code — FsCheck-Property-Tests
+und Lean-Beweise.
+
+Lizenz: MPL-2.0.
