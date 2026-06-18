@@ -20,6 +20,9 @@ if (!Directory.Exists(root))
 var maxAttempts = int.TryParse(Arg("--max-attempts", "3"), out var ma) ? ma : 3;
 var maxSpecs = int.TryParse(Arg("--max-specs", "1"), out var ms) ? ms : 1;
 var go = args.Contains("--go");
+var json = args.Contains("--json");
+// --json: eine JSON-Zeile je Ereignis (für die Cockpit-Steuerzentrale, die den Loop wie einen Engine-Turn zeigt).
+void Emit(object o) { if (json) Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(o)); }
 var projektName = new DirectoryInfo(root).Name;
 
 var nurSpec = Arg("--spec", "");
@@ -44,6 +47,7 @@ foreach (var spec in ziele)
 {
     var prompt = MapperCore.BuildPrompt(spec, projektName);
     Console.WriteLine($"\n── {spec.Id}: {spec.Title} ──");
+    Emit(new { t = "spec", id = spec.Id, title = spec.Title });
 
     if (!go)
     {
@@ -56,6 +60,7 @@ foreach (var spec in ziele)
     var ergebnis = MapperCore.RunSpec(spec, maxAttempts, attempt =>
     {
         Console.WriteLine($"  Versuch {attempt}/{maxAttempts} → claude -p …");
+        Emit(new { t = "attempt", n = attempt, max = maxAttempts, spec = spec.Id });
         if (!Lauf("claude", new[] { "-p", prompt, "--permission-mode", "acceptEdits" }, root))
             Console.WriteLine("  (claude-Aufruf meldete Fehler — messe trotzdem das Gate)");
         Lauf("cdd", new[] { "validate" }, root);
@@ -75,11 +80,13 @@ foreach (var spec in ziele)
             }
         }
         var ok = MapperCore.GateBestanden(marker, projekte.Count, alleGruen);
+        Emit(new { t = "gate", spec = spec.Id, marker, testprojekte = projekte.Count, alleGruen, ok });
         Console.WriteLine(ok ? "  ✓ Spec konvergiert (Marker Aligned UND dotnet test wirklich grün)"
                              : $"  … noch nicht konvergiert (Marker={marker}, Testprojekte={projekte.Count}, alle grün={alleGruen})");
         return ok;
     });
     ergebnisse.Add(ergebnis);
+    Emit(new { t = "spec_done", id = spec.Id, konvergiert = ergebnis.Konvergiert, versuche = ergebnis.Versuche });
     Console.WriteLine(ergebnis.Konvergiert
         ? $"  ABGESCHLOSSEN nach {ergebnis.Versuche} Versuch(en)."
         : $"  AUFGEGEBEN nach {ergebnis.Versuche} Versuchen — bitte manuell ansehen.");
@@ -89,6 +96,7 @@ if (go)
 {
     var ok = ergebnisse.Count(r => r.Konvergiert);
     Console.WriteLine($"\nFertig: {ok}/{ergebnisse.Count} Spec(s) konvergiert.");
+    Emit(new { t = "done", konvergiert = ok, total = ergebnisse.Count });
     return ergebnisse.All(r => r.Konvergiert) ? 0 : 1;
 }
 return 0;
