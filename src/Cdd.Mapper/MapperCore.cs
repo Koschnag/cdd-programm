@@ -127,6 +127,22 @@ public static class MapperCore
         return true;
     }
 
+    /// <summary>
+    /// Das Orakel verbürgt: der Spec-Knoten wird Aligned — NUR nachdem das Gate echt grün war
+    /// (Marker Aligned UND echtes `dotnet test`). Der Ausführer darf Convergence nie setzen; das
+    /// Orakel, das die Tests wirklich gemessen hat, schon. Byte-sauberer Diff (nur das eine Feld),
+    /// idempotent. Ohne diesen Schritt bliebe der Spec „Pending" und der Loop würde ihn umsonst neu bauen.
+    /// </summary>
+    public static void SetzeSpecAligned(string root, string specId)
+    {
+        var pfad = Path.Combine(root, ".spot", specId + ".json");
+        if (!File.Exists(pfad)) return;
+        var txt = File.ReadAllText(pfad);
+        var neu = System.Text.RegularExpressions.Regex.Replace(
+            txt, "(\"Convergence\"\\s*:\\s*\")Pending(\")", "${1}Aligned${2}");
+        if (neu != txt) File.WriteAllText(pfad, neu);
+    }
+
     private static string Conv(JsonElement e) =>
         e.TryGetProperty("Convergence", out var v) ? v.GetString() ?? "Pending" : "Pending";
 

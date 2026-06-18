@@ -90,3 +90,35 @@ let ``Gate v2: 'keine Tests gelaufen' (Exit 0) zaehlt NICHT als gruen`` () =
     Assert.False(MapperCore.TestlaufGruen(1, "Failed!  - Fehler: 2"))
     Assert.True(MapperCore.TestlaufGruen(0, "Bestanden!  : Fehler: 0, erfolgreich: 5"))
     Assert.True(MapperCore.TestlaufGruen(0, "Passed!  - Failed: 0, Passed: 5"))
+
+[<Fact>]
+let ``Orakel verbuergt Spec: Pending -> Aligned, nur das eine Feld`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-flip-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(Path.Combine(root, ".spot")) |> ignore
+    let pfad = Path.Combine(root, ".spot", "spec-z.json")
+    File.WriteAllText(pfad,
+        """{"Id":"spec-z","Payload":{"Case":"SpecNode","Fields":{"Item":{"Title":"Titel-bleibt","Intent":"i","Criteria":[]}}},"Convergence":"Pending"}""")
+    try
+        MapperCore.SetzeSpecAligned(root, "spec-z")
+        let txt = File.ReadAllText pfad
+        Assert.Contains("\"Convergence\":\"Aligned\"", txt)
+        Assert.DoesNotContain("Pending", txt)
+        Assert.Contains("Titel-bleibt", txt)   // der Rest unangetastet
+    finally Directory.Delete(root, true)
+
+[<Fact>]
+let ``Orakel fasst nur Pending an: Diverged bleibt, idempotent`` () =
+    let root = Path.Combine(Path.GetTempPath(), "mapper-flip2-" + Guid.NewGuid().ToString("N"))
+    Directory.CreateDirectory(Path.Combine(root, ".spot")) |> ignore
+    let mk id conv =
+        let p = Path.Combine(root, ".spot", id + ".json")
+        File.WriteAllText(p, sprintf """{"Id":"%s","Payload":{"Case":"SpecNode","Fields":{"Item":{"Title":"T","Intent":"i","Criteria":[]}}},"Convergence":"%s"}""" id conv)
+        p
+    let dv = mk "spec-dv" "Diverged"
+    let al = mk "spec-al" "Aligned"
+    try
+        MapperCore.SetzeSpecAligned(root, "spec-dv")   // Diverged darf NICHT zu Aligned werden
+        Assert.Contains("Diverged", File.ReadAllText dv)
+        MapperCore.SetzeSpecAligned(root, "spec-al")   // idempotent: Aligned bleibt Aligned
+        Assert.Contains("\"Convergence\":\"Aligned\"", File.ReadAllText al)
+    finally Directory.Delete(root, true)

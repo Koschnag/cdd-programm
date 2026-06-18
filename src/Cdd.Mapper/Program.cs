@@ -57,32 +57,47 @@ foreach (var spec in ziele)
         continue;
     }
 
+    // Misst das Gate v2: cdd validate + sync-tests, dann echtes `dotnet test` je Projekt.
+    // Exit 0 reicht nicht — die Ausgabe muss bestandene Tests ausweisen (sonst gilt "keine Tests" fälschlich als grün).
+    (bool ok, bool marker, int proj, bool gruen) GateMessen()
+    {
+        Lauf("cdd", new[] { "validate" }, root);
+        Lauf("cdd", new[] { "sync-tests", "--write" }, root);
+        var marker = MapperCore.SpecKonvergiert(root, spec.Id);
+        var projekte = MapperCore.FindeTestprojekte(root);
+        var alleGruen = projekte.Count > 0;
+        foreach (var p in projekte)
+        {
+            var (exit, ausgabe) = LaufMitAusgabe("dotnet", new[] { "test", p, "--nologo" }, root);
+            if (!MapperCore.TestlaufGruen(exit, ausgabe))
+            {
+                alleGruen = false;
+                Console.WriteLine($"  ✗ Tests nicht grün in {Path.GetFileName(p)}");
+            }
+        }
+        return (MapperCore.GateBestanden(marker, projekte.Count, alleGruen), marker, projekte.Count, alleGruen);
+    }
+
     var ergebnis = MapperCore.RunSpec(spec, maxAttempts, attempt =>
     {
+        // Idempotent + token-sparsam: eine bereits konvergierte Spec wird NICHT neu gebaut.
+        // (Antwort auf die Token-Ökonomie: der Loop verbrennt nichts für schon-grüne Specs.)
+        if (attempt == 1 && GateMessen().ok)
+        {
+            Console.WriteLine("  ✓ Gate bereits grün — kein claude-Lauf nötig (Token gespart).");
+            Emit(new { t = "gate", spec = spec.Id, ok = true, skipped = true });
+            MapperCore.SetzeSpecAligned(root, spec.Id);   // Orakel verbürgt: Spec → Aligned
+            return true;
+        }
         Console.WriteLine($"  Versuch {attempt}/{maxAttempts} → claude -p …");
         Emit(new { t = "attempt", n = attempt, max = maxAttempts, spec = spec.Id });
         if (!Lauf("claude", new[] { "-p", prompt, "--permission-mode", "acceptEdits" }, root))
             Console.WriteLine("  (claude-Aufruf meldete Fehler — messe trotzdem das Gate)");
-        Lauf("cdd", new[] { "validate" }, root);
-        Lauf("cdd", new[] { "sync-tests", "--write" }, root);
-        var marker = MapperCore.SpecKonvergiert(root, spec.Id);
-        // Gate v2: echtes dotnet test je Testprojekt. Exit 0 reicht nicht — die Ausgabe muss
-        // bestandene Tests ausweisen (sonst gilt "keine Tests gelaufen" fälschlich als grün).
-        var projekte = MapperCore.FindeTestprojekte(root);
-        var alleGruen = projekte.Count > 0;
-        foreach (var proj in projekte)
-        {
-            var (exit, ausgabe) = LaufMitAusgabe("dotnet", new[] { "test", proj, "--nologo" }, root);
-            if (!MapperCore.TestlaufGruen(exit, ausgabe))
-            {
-                alleGruen = false;
-                Console.WriteLine($"  ✗ Tests nicht grün in {Path.GetFileName(proj)}");
-            }
-        }
-        var ok = MapperCore.GateBestanden(marker, projekte.Count, alleGruen);
-        Emit(new { t = "gate", spec = spec.Id, marker, testprojekte = projekte.Count, alleGruen, ok });
+        var (ok, marker, proj, gruen) = GateMessen();
+        Emit(new { t = "gate", spec = spec.Id, marker, testprojekte = proj, alleGruen = gruen, ok });
         Console.WriteLine(ok ? "  ✓ Spec konvergiert (Marker Aligned UND dotnet test wirklich grün)"
-                             : $"  … noch nicht konvergiert (Marker={marker}, Testprojekte={projekte.Count}, alle grün={alleGruen})");
+                             : $"  … noch nicht konvergiert (Marker={marker}, Testprojekte={proj}, alle grün={gruen})");
+        if (ok) MapperCore.SetzeSpecAligned(root, spec.Id);   // Orakel verbürgt: Spec → Aligned
         return ok;
     });
     ergebnisse.Add(ergebnis);
