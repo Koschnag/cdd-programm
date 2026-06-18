@@ -7,5 +7,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>Cdd.Mapper</RootNamespace>
     <AssemblyName>Cdd.Mapper</AssemblyName>
+    <!-- als globales dotnet-Tool installierbar: `cdd-mapper` (der Loop-bis-Konvergenz-Runner). -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>cdd-mapper</ToolCommandName>
+    <PackageId>Cdd.Mapper</PackageId>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 </Project>
