@@ -62,6 +62,9 @@ foreach (var spec in ziele)
     (bool ok, bool marker, int proj, bool gruen) GateMessen()
     {
         Lauf("cdd", new[] { "validate" }, root);
+        // derive-tests VOR sync-tests: erzeugt die Test-Knoten deterministisch aus den Spec-Kriterien,
+        // damit der Ausführer sie NICHT von Hand anlegen muss (war die Quelle von „Marker=False trotz grün").
+        Lauf("cdd", new[] { "derive-tests", "--write" }, root);
         Lauf("cdd", new[] { "sync-tests", "--write" }, root);
         var marker = MapperCore.SpecKonvergiert(root, spec.Id);
         var projekte = MapperCore.FindeTestprojekte(root);
